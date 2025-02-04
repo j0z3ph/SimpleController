@@ -1,3 +1,27 @@
+/*
+  SimpleController.ino
+  SimpleController Sketch v0.1 (2025-2-4)
+  Copyright (c) 2025 Jose Luis Cruz Mora
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+*/
+
 #ifdef ESP32
 #include <ESP32Servo.h>
 #else
@@ -14,32 +38,34 @@
 #define SERVO_CONFIG 0x85
 #define SET_PIN_MODE 0x86  // (input, output, etc.)
 
-#define RESET_MESSAGE 0xFF
-#define DEVICE_INFO 0xF0
+#define RESET_MESSAGE 0xFF  // Reset board message
+#define DEVICE_INFO 0xF0    // Get device type ID
 
 #define MODE_INPUT 0
 #define MODE_OUTPUT 1
-#define MODE_ANALOG 2        // analog pin in analogInput mode
-#define MODE_PWM 3           // digital pin in PWM output mode
-#define MODE_SERVO 4         // digital pin in SERVO mode
-#define MODE_INPUT_PULLUP 5  // Same as INPUT, but with the pin's internal pull-up resistor enabled
+#define MODE_SERVO 2         // digital pin in SERVO mode
+#define MODE_INPUT_PULLUP 3  // Same as INPUT, but with the pin's internal pull-up resistor enabled
 #ifdef ESP32
 #define DEVICE 1  // ESP32
 #else
 #define DEVICE 0  // ARDUINO
 #endif
 
-// Buffer
+// Globals
+
 // format: command, pin, dataH, dataL
 byte _inbuffer[4];
 byte _outbuffer[4];
 
 size_t _bytesRead;
-
-Servo _servo;
 uint16_t _analogDataRead;
 
+Servo _servo;
+
+// Only for Arduino reset
 void (*softReset)(void) = 0;
+// Process input message
+void processInput(byte argc, byte *argv);
 
 void setup() {
   Serial.begin(BAUD);
@@ -53,7 +79,7 @@ void setup() {
 
 void loop() {
   if (Serial.available()) {
-    _bytesRead = Serial.readBytes(_inbuffer, 4);
+    _bytesRead = Serial.readBytes(_inbuffer, 4); // Read 4 bytes
     if (_bytesRead) {
       processInput(_bytesRead, _inbuffer);
     }
@@ -69,7 +95,7 @@ void processInput(byte argc, byte *argv) {
         // output format: command, value
         if (argc > 1) {
           _outbuffer[0] = argv[0];  // command
-          _outbuffer[1] = DEVICE;   // pin
+          _outbuffer[1] = DEVICE;   // Dev ID
           Serial.write(_outbuffer, 2);
         }
         break;

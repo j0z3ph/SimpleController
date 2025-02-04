@@ -50,3 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Python/__pycache__/simplecontroller.cpython-311.pyc
+
+# Python
+__pycache__/
