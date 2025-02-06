@@ -54,6 +54,13 @@
 #define ARDUINO 0
 #define ESP32 1
 
+/// Types
+
+#ifdef _WIN32
+typedef unsigned char uint8_t;
+typedef unsigned int uint;
+#endif
+
 /// @brief Base structure
 typedef struct Board
 {

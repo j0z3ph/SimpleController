@@ -23,7 +23,6 @@
 #ifndef __SERIAL_ARDUINO_H__
 #define __SERIAL_ARDUINO_H__ 1
 
-#define ARDUINO_WAIT_TIME 2000
 #define MAX_DATA_LENGTH 255
 
 typedef enum BaudRate
