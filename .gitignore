@@ -54,3 +54,5 @@ Python/__pycache__/simplecontroller.cpython-311.pyc
 
 # Python
 __pycache__/
+# VSCode
+.vscode/
