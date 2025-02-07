@@ -56,3 +56,4 @@ Python/__pycache__/simplecontroller.cpython-311.pyc
 __pycache__/
 # VSCode
 .vscode/
+.DS_Store
