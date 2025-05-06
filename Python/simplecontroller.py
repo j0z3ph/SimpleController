@@ -62,7 +62,7 @@ class Board:
             be equals to the defined in SimpleController.ino. Defaults to 115200.
         """
         self.__serialport = serial.Serial(port, baudrate, timeout=1)  # 1 second timeout
-        self.__serialport.write(bytearray([RESET_MESSAGE, 0, 0, 0]))  # Reset
+        #self.__serialport.write(bytearray([RESET_MESSAGE, 0, 0, 0]))  # Reset
         time.sleep(2)  # Wait for boat reboot
         self.__serialport.write(bytearray([DEVICE_INFO, 0, 0, 0]))  # Request device ID
         byte = self.__serialport.read()

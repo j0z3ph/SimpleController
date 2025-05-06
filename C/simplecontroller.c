@@ -49,9 +49,9 @@ Board *connectDevice(const char *portName, BaudRate baudrate)
         return NULL;
     }
 
-    memset(b->command, 0, 4);
-    b->command[0] = RESET_MESSAGE;
-    writeSerialPort(b->command, 4, &b->sp);
+    //memset(b->command, 0, 4);
+    //b->command[0] = RESET_MESSAGE;
+    //writeSerialPort(b->command, 4, &b->sp);
     Sleep(2000);
     b->command[0] = DEVICE_INFO;
     writeSerialPort(b->command, 4, &b->sp);

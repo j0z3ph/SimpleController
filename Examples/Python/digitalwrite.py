@@ -1,14 +1,14 @@
 import simplecontroller as sc
 import time 
 
-device = sc.Board("COM7")
-device.pinMode(2, sc.OUTPUT)
+device = sc.Board("COM4")
+device.pinMode(13, sc.OUTPUT)
 #device.pinMode(13, sc.INPUT_PULLUP)
-
+time.sleep(0.1)
 while True:
-    device.digitalWrite(2, True)
+    device.digitalWrite(13, True)
     time.sleep(1)
-    device.digitalWrite(2, False)
+    device.digitalWrite(13, False)
     time.sleep(1)
     #device.digitalWrite(2, not device.digitalRead(13))
     
